@@ -10,8 +10,10 @@ namespace HotelWebApi.Services
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
-        public SUsuarios(AppDBContext dbContext, IMapper mapper) { _context = dbContext;
+        private readonly SJWToken _swtoken;
+        public SUsuarios(AppDBContext dbContext, IMapper mapper, SJWToken swtoken) { _context = dbContext;
             _mapper =mapper;
+            _swtoken=swtoken;
         }
 
         public async Task<string> Login(VMLogin vMUsuario)
@@ -21,9 +23,12 @@ namespace HotelWebApi.Services
             Usuarios map_user = _mapper.Map<Usuarios>(vMUsuario);
             var usuario = await FindUser(map_user);
 
-            if (response != null)
+            if (usuario != null)
             {
                 response = CheckPassword(usuario.Password_Usuario, vMUsuario.Password_Usuario);
+
+                if (response == "verificado") 
+                    response = _swtoken.generateToken(usuario.Correo_Usuario, usuario.Cod_Usuario, usuario.Role_Usuario);
             }
 
             else
@@ -69,7 +74,7 @@ namespace HotelWebApi.Services
 
         private string CheckPassword(string dbpassword, string contrasena)
         {
-            string response = "";
+            string response = "verificado";
             //Comparamos las contraseñas con la base de datos
             if (!BCrypt.Net.BCrypt.Verify(contrasena, dbpassword))
                 response = "contraseña incorrecta";

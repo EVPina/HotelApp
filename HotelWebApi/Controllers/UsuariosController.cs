@@ -43,5 +43,15 @@ namespace HotelWebApi.Controllers
             else
                 return (Ok(response));
         }
+
+
+        [HttpGet("Saludo")]
+        [Authorize(Roles = "string")]
+        public IActionResult saludo()
+        {
+
+            return Ok("hola");
+
+        }
     }
 }
