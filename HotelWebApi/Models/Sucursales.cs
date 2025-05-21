@@ -1,5 +1,6 @@
 ﻿using HotelWebApi.Interfaces;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelWebApi.Models
 {
@@ -8,6 +9,7 @@ namespace HotelWebApi.Models
         [Key]
         [Required]
         [StringLength(5)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public string Codigo_Sucursal { get; set; }
 
         [Required]

@@ -55,18 +55,17 @@ namespace HotelWebApi.Migrations
                 name: "PisoHabitaciones",
                 columns: table => new
                 {
-                    Id_PisoHabitacion = table.Column<int>(type: "int", maxLength: 5, nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Cod_PisoHabitacion = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     Nombre_PisoHabitacion = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     ID_TipoHabitacion = table.Column<int>(type: "int", nullable: false),
                     Estado_TipoHabitacion = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Codigo_Sucursal = table.Column<int>(type: "int", nullable: false),
+                    Codigo_Sucursal = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TipoHabitacionID_TipoHabitacion = table.Column<int>(type: "int", nullable: false),
                     SucursalesCodigo_Sucursal = table.Column<string>(type: "nvarchar(5)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PisoHabitaciones", x => x.Id_PisoHabitacion);
+                    table.PrimaryKey("PK_PisoHabitaciones", x => x.Cod_PisoHabitacion);
                     table.ForeignKey(
                         name: "FK_PisoHabitaciones_Sucursales_SucursalesCodigo_Sucursal",
                         column: x => x.SucursalesCodigo_Sucursal,
@@ -85,11 +84,10 @@ namespace HotelWebApi.Migrations
                 name: "Personas",
                 columns: table => new
                 {
-                    DNI_Persona = table.Column<int>(type: "int", maxLength: 8, nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DNI_Persona = table.Column<int>(type: "int", maxLength: 8, nullable: false),
                     Nombre_Persona = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Apellido_Persona = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Id_Usuario = table.Column<int>(type: "int", nullable: false),
+                    Cod_Usuario = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UsuariosCod_Usuario = table.Column<string>(type: "nvarchar(8)", nullable: false)
                 },
                 constraints: table =>
@@ -110,7 +108,7 @@ namespace HotelWebApi.Migrations
                     Id_Sucursales_Usuarios = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Codigo_Sucursal = table.Column<int>(type: "int", maxLength: 5, nullable: false),
-                    Cod_Usuario = table.Column<int>(type: "int", maxLength: 8, nullable: false),
+                    Cod_Usuario = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     SucursalesCodigo_Sucursal = table.Column<string>(type: "nvarchar(5)", nullable: true),
                     UsuariosCod_Usuario = table.Column<string>(type: "nvarchar(8)", nullable: false)
                 },

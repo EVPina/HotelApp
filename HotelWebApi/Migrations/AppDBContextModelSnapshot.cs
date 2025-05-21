@@ -24,18 +24,16 @@ namespace HotelWebApi.Migrations
             modelBuilder.Entity("HotelWebApi.Models.Persona", b =>
                 {
                     b.Property<int>("DNI_Persona")
-                        .ValueGeneratedOnAdd()
                         .HasMaxLength(8)
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DNI_Persona"));
 
                     b.Property<string>("Apellido_Persona")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id_Usuario")
-                        .HasColumnType("int");
+                    b.Property<string>("Cod_Usuario")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre_Persona")
                         .IsRequired()
@@ -54,15 +52,13 @@ namespace HotelWebApi.Migrations
 
             modelBuilder.Entity("HotelWebApi.Models.PisoHabitaciones", b =>
                 {
-                    b.Property<int>("Id_PisoHabitacion")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Cod_PisoHabitacion")
                         .HasMaxLength(5)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(5)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_PisoHabitacion"));
-
-                    b.Property<int>("Codigo_Sucursal")
-                        .HasColumnType("int");
+                    b.Property<string>("Codigo_Sucursal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Estado_TipoHabitacion")
                         .IsRequired()
@@ -83,7 +79,7 @@ namespace HotelWebApi.Migrations
                     b.Property<int>("TipoHabitacionID_TipoHabitacion")
                         .HasColumnType("int");
 
-                    b.HasKey("Id_PisoHabitacion");
+                    b.HasKey("Cod_PisoHabitacion");
 
                     b.HasIndex("SucursalesCodigo_Sucursal");
 
@@ -118,9 +114,10 @@ namespace HotelWebApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_Sucursales_Usuarios"));
 
-                    b.Property<int>("Cod_Usuario")
+                    b.Property<string>("Cod_Usuario")
+                        .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<int>("Codigo_Sucursal")
                         .HasMaxLength(5)

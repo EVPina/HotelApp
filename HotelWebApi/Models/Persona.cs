@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HotelWebApi.Interfaces;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelWebApi.Models
 {
-    public class Persona
+    public class Persona 
     {
 
         [Key]
-        [Required]
         [StringLength(8)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int DNI_Persona { get; set; }
 
         [Required]
@@ -15,7 +17,7 @@ namespace HotelWebApi.Models
         [Required]
         public string Apellido_Persona { get; set; }
         [Required]
-        public int Id_Usuario { get; set; }
+        public string Cod_Usuario { get; set; }
 
         public Usuarios Usuarios { get; set; }
 

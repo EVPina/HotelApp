@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelWebApi.Models
 {
@@ -7,7 +8,8 @@ namespace HotelWebApi.Models
         [Key]
         [Required]
         [StringLength(5)]
-        public int Id_PisoHabitacion { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Cod_PisoHabitacion { get; set; }
 
         [Required]
         [StringLength(5)]
@@ -20,7 +22,7 @@ namespace HotelWebApi.Models
         public string Estado_TipoHabitacion { get; set; }
 
         [Required]
-        public int Codigo_Sucursal { get; set; }
+        public string Codigo_Sucursal { get; set; }
         public TipoHabitacion TipoHabitacion { get; set; }
         public Sucursales Sucursales { get; set; }
     }

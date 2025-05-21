@@ -12,7 +12,7 @@ namespace HotelWebApi.Models
         public int Codigo_Sucursal { get; set; }
         [Required]
         [StringLength(8)]
-        public int Cod_Usuario { get; set; }
+        public string Cod_Usuario { get; set; }
 
         public Sucursales Sucursales { get; set; }
         public Usuarios Usuarios { get; set; }
