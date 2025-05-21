@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HotelWebApi.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelWebApi.Models
 {
-    public class Usuarios
+    public class Usuarios : IGeneraId
     {
         [Required]
         [Key]
@@ -19,5 +20,10 @@ namespace HotelWebApi.Models
 
         [Required]
         public string Role_Usuario { get; set; }
+
+        public void GenerarId()
+        {
+            Cod_Usuario =  Guid.NewGuid().ToString("N")[..8];
+        }
     }
 }

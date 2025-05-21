@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HotelWebApi.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelWebApi.Models
 {
-    public class Sucursales
+    public class Sucursales : IGeneraId
     {
         [Key]
         [Required]
@@ -14,5 +15,10 @@ namespace HotelWebApi.Models
 
         [Required]
         public int Pisos_Sucursal { get; set; }
+
+        void IGeneraId.GenerarId()
+        {
+            Codigo_Sucursal = Guid.NewGuid().ToString("N")[..5];
+        }
     }
 }

@@ -37,6 +37,8 @@ namespace HotelWebApi.Services
 
             Usuarios map_usuarios = _mapper.Map<Usuarios>(vMRegistrar);
 
+            map_usuarios.GenerarId();
+
             Usuarios usuarios = await FindUser(map_usuarios);
 
             if (usuarios == null)
@@ -45,9 +47,8 @@ namespace HotelWebApi.Services
 
                 map_usuarios.Password_Usuario = nueva_contrasena;
 
-                var map_usuario = _mapper.Map<Usuarios>(map_usuarios);
 
-                _context.Usuarios.Add(map_usuario);
+                _context.Usuarios.Add(map_usuarios);
                 await _context.SaveChangesAsync();
             }
             else

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HotelWebApi.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelWebApi.Models
 {
