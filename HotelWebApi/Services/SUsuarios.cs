@@ -10,29 +10,39 @@ namespace HotelWebApi.Services
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<SUsuarios> _logger;
         private readonly SJWToken _swtoken;
-        public SUsuarios(AppDBContext dbContext, IMapper mapper, SJWToken swtoken) { _context = dbContext;
+        public SUsuarios(AppDBContext dbContext, IMapper mapper, SJWToken swtoken, ILogger<SUsuarios> logger) { _context = dbContext;
             _mapper =mapper;
             _swtoken=swtoken;
+            _logger=logger;
         }
 
         public async Task<string> Login(VMLogin vMUsuario)
         {
             string response = "";
 
+            _logger.LogInformation("Iniciando el proceso de iniciar para el usuario: {Correo_Usuario}", vMUsuario.Correo_Usuario);
+
             Usuarios map_user = _mapper.Map<Usuarios>(vMUsuario);
-            var usuario = await FindUser(map_user);
+            var usuario = await FindUser(map_user.Correo_Usuario);
 
             if (usuario != null)
             {
                 response = CheckPassword(usuario.Password_Usuario, vMUsuario.Password_Usuario);
 
-                if (response == "verificado") 
+                if (response == "verificado")
+                {
                     response = _swtoken.generateToken(usuario.Correo_Usuario, usuario.Cod_Usuario, usuario.Role_Usuario);
+                    _logger.LogInformation("Se logro iniciar sesion");
+                }
             }
 
             else
+            {
+                _logger.LogWarning("El Correo {Correo_Usuario} no se encuentra registrado", vMUsuario.Correo_Usuario);
                 response = "No se encontro usuario";
+            }
             return response;
         }
 
@@ -40,33 +50,39 @@ namespace HotelWebApi.Services
         {
             string response = "se logro registrar";
 
+            _logger.LogInformation("Iniciando el proceso de registrar para el usuario: {Correo_Usuario}", vMRegistrar.Correo_Usuario);
+
             Usuarios map_usuarios = _mapper.Map<Usuarios>(vMRegistrar);
 
-            map_usuarios.GenerarId();
+            Usuarios check_usuarios = await FindUser(vMRegistrar.Correo_Usuario);
 
-            Usuarios usuarios = await FindUser(map_usuarios);
-
-            if (usuarios == null)
+            if (check_usuarios == null)
             {
                 string nueva_contrasena = BCrypt.Net.BCrypt.HashPassword(map_usuarios.Password_Usuario);
 
                 map_usuarios.Password_Usuario = nueva_contrasena;
-
+                map_usuarios.GenerarId();
 
                 _context.Usuarios.Add(map_usuarios);
                 await _context.SaveChangesAsync();
+
+                _logger.LogInformation("Se logro registrar el usuario");
+
             }
             else
+            {
                 response = "correo ya registrado";
+
+                _logger.LogWarning("El Correo {Correo_Usuario} ya se encuentra registrado", map_usuarios.Correo_Usuario);
+
+            }
             return response;
         }
 
 
         //Buscar si existe usuario 
-        private async Task<Usuarios> FindUser(Usuarios usuarios)
+        private async Task<Usuarios> FindUser(string correo_usuario)
         {
-            string correo_usuario = usuarios.Correo_Usuario;
-
             var result_usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.Correo_Usuario == correo_usuario);
 
             return result_usuario;
