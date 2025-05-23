@@ -4,6 +4,8 @@ using HotelWebApi.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Threading.Tasks;
 
 namespace HotelWebApi.Controllers
 {
@@ -44,14 +46,17 @@ namespace HotelWebApi.Controllers
                 return (Ok(response));
         }
 
-
-        [HttpGet("Saludo")]
-        [Authorize(Roles = "string")]
-        public IActionResult saludo()
+        [AllowAnonymous]
+        [HttpPut("Saludo")]
+        public async Task<IActionResult> ActualizarDatos([FromBody] VMDatosUsuario vMDatosUsuario)
         {
+            if (ModelState.IsValid)
+            {
+                var respuesta = await _Service_user.ActualizarDatos(vMDatosUsuario);
 
-            return Ok("hola");
-
+                return Ok(respuesta);
+            }
+            return BadRequest();
         }
     }
 }

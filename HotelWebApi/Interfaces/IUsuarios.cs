@@ -6,5 +6,6 @@ namespace HotelWebApi.Interfaces
     {
         public Task<string> Login(VMLogin vMUsuario);
         public Task<string> Registrar(VMRegistrar vMRegistrar);
+        public Task<string> ActualizarDatos(VMDatosUsuario vMDatos);
     }
 }

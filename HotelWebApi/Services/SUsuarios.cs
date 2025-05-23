@@ -3,19 +3,22 @@ using HotelWebApi.Interfaces;
 using HotelWebApi.Models;
 using HotelWebApi.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace HotelWebApi.Services
 {
-    public class SUsuarios: IUsuarios
+    public class SUsuarios : IUsuarios
     {
         private readonly AppDBContext _context;
         private readonly IMapper _mapper;
         private readonly ILogger<SUsuarios> _logger;
         private readonly SJWToken _swtoken;
-        public SUsuarios(AppDBContext dbContext, IMapper mapper, SJWToken swtoken, ILogger<SUsuarios> logger) { _context = dbContext;
-            _mapper =mapper;
-            _swtoken=swtoken;
-            _logger=logger;
+        public SUsuarios(AppDBContext dbContext, IMapper mapper, SJWToken swtoken, ILogger<SUsuarios> logger)
+        {
+            _context = dbContext;
+            _mapper = mapper;
+            _swtoken = swtoken;
+            _logger = logger;
         }
 
         public async Task<string> Login(VMLogin vMUsuario)
@@ -94,6 +97,37 @@ namespace HotelWebApi.Services
             //Comparamos las contraseñas con la base de datos
             if (!BCrypt.Net.BCrypt.Verify(contrasena, dbpassword))
                 response = "contraseña incorrecta";
+            return response;
+        }
+
+        public async Task<string> ActualizarDatos(VMDatosUsuario vMDatos)
+        {
+            string response = "se logro actualizar";
+            try
+            {
+                _logger.LogInformation("Iniciando el proceso de actualizar para el usuario: {Correo_Usuario}", vMDatos.Correo_Usuario);
+
+                Persona persona = _mapper.Map<Persona>(vMDatos);
+
+                var result_usuario = await _context.Personas.FirstOrDefaultAsync(x => x.Cod_Usuario == persona.Cod_Usuario);
+
+                if (result_usuario == (null))
+                {
+                    _context.Personas.Add(persona);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                   var a = await _context.Personas.Include(c=>c.Usuarios).ToListAsync();
+                    response = a.FirstOrDefault().Usuarios.Correo_Usuario;
+                }
+            }
+            catch(Exception ex)
+            {
+                response = ex.Message;
+            }
+         
+
             return response;
         }
     }

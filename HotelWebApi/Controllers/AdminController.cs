@@ -6,7 +6,7 @@ namespace HotelWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "string")]
+    [Authorize(Roles = "administrador")]
     public class AdminController : ControllerBase
     {
 
