@@ -19,6 +19,7 @@ namespace HotelWebApi.Models
         [Required]
         public string Cod_Usuario { get; set; }
 
+        [ForeignKey(nameof(Cod_Usuario))]
         public Usuarios Usuarios { get; set; }
 
     }

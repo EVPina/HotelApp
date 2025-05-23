@@ -23,7 +23,9 @@ namespace HotelWebApi.Models
 
         [Required]
         public string Codigo_Sucursal { get; set; }
+        [ForeignKey(nameof(ID_TipoHabitacion))]
         public TipoHabitacion TipoHabitacion { get; set; }
+        [ForeignKey(nameof(Codigo_Sucursal))]
         public Sucursales Sucursales { get; set; }
     }
 }
