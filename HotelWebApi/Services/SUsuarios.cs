@@ -107,17 +107,19 @@ namespace HotelWebApi.Services
             {
                 _logger.LogInformation("Iniciando el proceso de actualizar para el usuario: {Correo_Usuario}", vMDatos.Correo_Usuario);
 
-                Persona persona = _mapper.Map<Persona>(vMDatos);
+                Empleado map_empleado = _mapper.Map<Empleado>(vMDatos);
 
-                var result_usuarios = await _context.Usuarios.FirstOrDefaultAsync(x => x.Cod_Usuario == persona.Cod_Usuario);
-                var result_persona = await _context.Personas.FirstOrDefaultAsync(x => x.DNI_Persona == vMDatos.DNI_Persona);
+                var result_usuarios = await _context.Usuarios.FirstOrDefaultAsync(x => x.Cod_Usuario == map_empleado.Cod_Usuario);
+
+
+                var result_persona = await _context.Empleado.FirstOrDefaultAsync(x => x.DNI_Empleado == vMDatos.DNI_Empleado);
 
                 //Si no hy datos personales del usuario, lo agregamos
                 if (result_persona == (null))
                 {
                     _logger.LogInformation("Se estan agregando datos personales");
-
-                    _context.Personas.Add(persona);
+                    map_empleado.GenerarId();
+                    _context.Empleado.Add(map_empleado);
                     await _context.SaveChangesAsync();
                 }
 
@@ -126,12 +128,12 @@ namespace HotelWebApi.Services
                 {
                     _logger.LogInformation("Se estan actualizando los datos del usuario");
 
-                    if (vMDatos.Correo_Usuario!=null)
+                    if (vMDatos.Correo_Usuario != null)
                     {
-                         result_usuarios.Correo_Usuario = vMDatos.Correo_Usuario;
+                        result_usuarios.Correo_Usuario = vMDatos.Correo_Usuario;
                     }
 
-                    if(vMDatos.Password_Usuario != null)
+                    if (vMDatos.Password_Usuario != null)
                     {
                         string nueva_contrasena = BCrypt.Net.BCrypt.HashPassword(vMDatos.Password_Usuario);
                         result_usuarios.Password_Usuario = nueva_contrasena;
@@ -139,13 +141,14 @@ namespace HotelWebApi.Services
                     await _context.SaveChangesAsync();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.InnerException.ToString());
 
                 response = ex.Message;
             }
-         
+
+
 
             return response;
         }
