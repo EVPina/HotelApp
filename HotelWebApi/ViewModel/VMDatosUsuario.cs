@@ -13,14 +13,14 @@ namespace HotelWebApi.ViewModel
     {
         [EmailAddress]
         [MaxLength(50)]
-        public string Correo_Usuario { get; set; }
+        public string? Correo_Usuario { get; set; }
 
         [MaxLength(50)]
         [MinLength(6)]
-        public string Password_Usuario { get; set; }
+        public string? Password_Usuario { get; set; }
 
         [Compare(nameof(Password_Usuario), ErrorMessage = "contraseña diferente")]
-        public string confirmpassword { get; set; }
+        public string? confirmpassword { get; set; }
 
         [EnumDataType(typeof(TipoRol))]
         public string Role_Usuario { get; set; }

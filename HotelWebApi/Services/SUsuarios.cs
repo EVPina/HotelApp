@@ -109,21 +109,40 @@ namespace HotelWebApi.Services
 
                 Persona persona = _mapper.Map<Persona>(vMDatos);
 
-                var result_usuario = await _context.Personas.FirstOrDefaultAsync(x => x.Cod_Usuario == persona.Cod_Usuario);
+                var result_usuarios = await _context.Usuarios.FirstOrDefaultAsync(x => x.Cod_Usuario == persona.Cod_Usuario);
+                var result_persona = await _context.Personas.FirstOrDefaultAsync(x => x.DNI_Persona == vMDatos.DNI_Persona);
 
-                if (result_usuario == (null))
+                //Si no hy datos personales del usuario, lo agregamos
+                if (result_persona == (null))
                 {
+                    _logger.LogInformation("Se estan agregando datos personales");
+
                     _context.Personas.Add(persona);
                     await _context.SaveChangesAsync();
                 }
-                else
+
+                //Actualizamos los datos del usuario
+                if (result_usuarios != null)
                 {
-                   var a = await _context.Personas.Include(c=>c.Usuarios).ToListAsync();
-                    response = a.FirstOrDefault().Usuarios.Correo_Usuario;
+                    _logger.LogInformation("Se estan actualizando los datos del usuario");
+
+                    if (vMDatos.Correo_Usuario!=null)
+                    {
+                         result_usuarios.Correo_Usuario = vMDatos.Correo_Usuario;
+                    }
+
+                    if(vMDatos.Password_Usuario != null)
+                    {
+                        string nueva_contrasena = BCrypt.Net.BCrypt.HashPassword(vMDatos.Password_Usuario);
+                        result_usuarios.Password_Usuario = nueva_contrasena;
+                    }
+                    await _context.SaveChangesAsync();
                 }
             }
             catch(Exception ex)
             {
+                _logger.LogError(ex.InnerException.ToString());
+
                 response = ex.Message;
             }
          
