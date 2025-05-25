@@ -46,7 +46,6 @@ namespace HotelWebApi.Controllers
                 return (Ok(response));
         }
 
-        [AllowAnonymous]
         [HttpPut("Saludo")]
         public async Task<IActionResult> ActualizarDatos([FromBody] VMDatosUsuario vMDatosUsuario)
         {

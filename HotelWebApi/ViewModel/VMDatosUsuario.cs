@@ -26,9 +26,9 @@ namespace HotelWebApi.ViewModel
         public string Role_Usuario { get; set; }
 
         [Range(0, 99999999,ErrorMessage ="Se admite hasta 8 caracteres")]
-        public int DNI_Persona { get; set; }
-        public string Nombre_Persona { get; set; }
-        public string Apellido_Persona { get; set; }
+        public int DNI_Empleado { get; set; }
+        public string Nombre_Empleado { get; set; }
+        public string Apellido_Empleado { get; set; }
         public string Cod_Usuario { get; set; }
         
     }

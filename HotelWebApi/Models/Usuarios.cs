@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelWebApi.Models
 {
+    public enum Role{
+        administrador,
+        usuario
+    }
     public class Usuarios : IGeneraId
     {
         [Required]
@@ -21,6 +25,7 @@ namespace HotelWebApi.Models
         public string Password_Usuario { get; set; }
 
         [Required]
+        [EnumDataType(typeof(Role))]
         public string Role_Usuario { get; set; }
 
         public void GenerarId()
