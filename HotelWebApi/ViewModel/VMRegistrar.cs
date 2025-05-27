@@ -2,6 +2,13 @@
 
 namespace HotelWebApi.ViewModel
 {
+
+    public enum RoleUsuario
+    {
+        Administrador,
+        Empleado,
+        Cliente
+    }
     public class VMRegistrar
     {
         [Required]
@@ -18,7 +25,7 @@ namespace HotelWebApi.ViewModel
         [Compare(nameof(Password_Usuario), ErrorMessage = "contraseña diferente")]
         public string confirmpassword { get; set; }
 
-
+        [EnumDataType(typeof(RoleUsuario), ErrorMessage = "Rol no válido.")]
         [Required]
         public string Role_Usuario { get; set; }
     }
