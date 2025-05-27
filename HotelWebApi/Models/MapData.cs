@@ -12,6 +12,7 @@ namespace HotelWebApi.Models
             CreateMap<Usuarios, VMRegistrar>();
             CreateMap<VMDatosUsuario, Empleado>();
             CreateMap<Empleado, VMDatosUsuario>();
+            CreateMap<Sucursales, VMSucursal>();
         }
     }
 }
