@@ -20,6 +20,12 @@ namespace HotelWebApi.Models
         [Required]
         public string? Apellido_Cliente { get; set; }
 
+        [Required]
+        public string Codigo_Sucursal { get; set; }
+
+        [ForeignKey(nameof(Codigo_Sucursal))]
+        public Sucursales Sucursales { get; set; }
+
         void IGeneraId.GenerarId()
         {
           Cod_Clientes= Guid.NewGuid().ToString("N")[..8];

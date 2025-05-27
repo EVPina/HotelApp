@@ -15,8 +15,6 @@ namespace HotelWebApi.Models
         [Required]
         public string Nombre_Sucursal { get; set; }
 
-        [Required]
-        public int Pisos_Sucursal { get; set; }
 
         void IGeneraId.GenerarId()
         {

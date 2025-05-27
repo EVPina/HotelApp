@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HotelWebApi.Models
 {
@@ -13,5 +14,11 @@ namespace HotelWebApi.Models
 
         [Required]
         public double Precio_TipoHabitacion { get; set; }
+
+        [Required]
+        public int Codigo_Piso { get; set; }
+
+        [ForeignKey(nameof(Codigo_Piso))]
+        public Piso piso { get; set; }
     }
 }

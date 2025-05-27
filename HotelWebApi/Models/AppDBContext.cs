@@ -14,7 +14,8 @@ namespace HotelWebApi.Models
         public DbSet<Empleado> Empleado => Set<Empleado>();
         public DbSet<Sucursales> Sucursales => Set<Sucursales>();
         public DbSet<Sucursales_Usuarios> Sucursales_Usuarios => Set<Sucursales_Usuarios>();
-        public DbSet<PisoHabitaciones> PisoHabitaciones => Set<PisoHabitaciones>();
+        public DbSet<Piso> PisoHabitaciones => Set<Piso>();
         public DbSet<TipoHabitacion> TipoHabitacion => Set<TipoHabitacion>();
+        public DbSet<Clientes> Clientes => Set<Clientes>();
     }
 }

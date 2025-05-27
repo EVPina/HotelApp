@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelWebApi.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250521172940_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250527165002_AgregaRelacionClientesSucursal")]
+    partial class AgregaRelacionClientesSucursal
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,69 +24,87 @@ namespace HotelWebApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("HotelWebApi.Models.Persona", b =>
+            modelBuilder.Entity("HotelWebApi.Models.Clientes", b =>
                 {
-                    b.Property<int>("DNI_Persona")
+                    b.Property<string>("Cod_Clientes")
                         .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("Apellido_Cliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Codigo_Sucursal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(5)");
+
+                    b.Property<int?>("DNI_Cliente")
                         .HasColumnType("int");
 
-                    b.Property<string>("Apellido_Persona")
+                    b.Property<string>("Nombre_Cliente")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Cod_Clientes");
+
+                    b.HasIndex("Codigo_Sucursal");
+
+                    b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("HotelWebApi.Models.Empleado", b =>
+                {
+                    b.Property<string>("Cod_Empleado")
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<string>("Apellido_Empleado")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Cod_Usuario")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre_Persona")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UsuariosCod_Usuario")
-                        .IsRequired()
                         .HasColumnType("nvarchar(8)");
 
-                    b.HasKey("DNI_Persona");
+                    b.Property<int?>("DNI_Empleado")
+                        .HasColumnType("int");
 
-                    b.HasIndex("UsuariosCod_Usuario");
+                    b.Property<string>("Nombre_Empleado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Personas");
+                    b.HasKey("Cod_Empleado");
+
+                    b.HasIndex("Cod_Usuario");
+
+                    b.ToTable("Empleado");
                 });
 
-            modelBuilder.Entity("HotelWebApi.Models.PisoHabitaciones", b =>
+            modelBuilder.Entity("HotelWebApi.Models.Piso", b =>
                 {
-                    b.Property<string>("Cod_PisoHabitacion")
-                        .HasMaxLength(5)
-                        .HasColumnType("nvarchar(5)");
+                    b.Property<int>("Codigo_Piso")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Codigo_Piso"));
 
                     b.Property<string>("Codigo_Sucursal")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Estado_TipoHabitacion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ID_TipoHabitacion")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nombre_PisoHabitacion")
-                        .IsRequired()
-                        .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<string>("SucursalesCodigo_Sucursal")
+                    b.Property<string>("Estado_Habitacion")
                         .IsRequired()
-                        .HasColumnType("nvarchar(5)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
-                    b.Property<int>("TipoHabitacionID_TipoHabitacion")
-                        .HasColumnType("int");
+                    b.Property<string>("Nombre_Piso")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("Cod_PisoHabitacion");
+                    b.HasKey("Codigo_Piso");
 
-                    b.HasIndex("SucursalesCodigo_Sucursal");
-
-                    b.HasIndex("TipoHabitacionID_TipoHabitacion");
+                    b.HasIndex("Codigo_Sucursal");
 
                     b.ToTable("PisoHabitaciones");
                 });
@@ -100,9 +118,6 @@ namespace HotelWebApi.Migrations
                     b.Property<string>("Nombre_Sucursal")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Pisos_Sucursal")
-                        .HasColumnType("int");
 
                     b.HasKey("Codigo_Sucursal");
 
@@ -122,22 +137,21 @@ namespace HotelWebApi.Migrations
                         .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
 
-                    b.Property<int>("Codigo_Sucursal")
+                    b.Property<string>("Codigo_Sucursal")
+                        .IsRequired()
                         .HasMaxLength(5)
-                        .HasColumnType("int");
-
-                    b.Property<string>("SucursalesCodigo_Sucursal")
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<string>("UsuariosCod_Usuario")
+                    b.Property<string>("Estado_Sucursales_Usuarios")
                         .IsRequired()
+                        .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
 
                     b.HasKey("Id_Sucursales_Usuarios");
 
-                    b.HasIndex("SucursalesCodigo_Sucursal");
+                    b.HasIndex("Cod_Usuario");
 
-                    b.HasIndex("UsuariosCod_Usuario");
+                    b.HasIndex("Codigo_Sucursal");
 
                     b.ToTable("Sucursales_Usuarios");
                 });
@@ -150,6 +164,9 @@ namespace HotelWebApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_TipoHabitacion"));
 
+                    b.Property<int>("Codigo_Piso")
+                        .HasColumnType("int");
+
                     b.Property<string>("Nombre_TipoHabitacion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -158,6 +175,8 @@ namespace HotelWebApi.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("ID_TipoHabitacion");
+
+                    b.HasIndex("Codigo_Piso");
 
                     b.ToTable("TipoHabitacion");
                 });
@@ -185,51 +204,67 @@ namespace HotelWebApi.Migrations
                     b.ToTable("Usuarios");
                 });
 
-            modelBuilder.Entity("HotelWebApi.Models.Persona", b =>
+            modelBuilder.Entity("HotelWebApi.Models.Clientes", b =>
+                {
+                    b.HasOne("HotelWebApi.Models.Sucursales", "Sucursales")
+                        .WithMany()
+                        .HasForeignKey("Codigo_Sucursal")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sucursales");
+                });
+
+            modelBuilder.Entity("HotelWebApi.Models.Empleado", b =>
                 {
                     b.HasOne("HotelWebApi.Models.Usuarios", "Usuarios")
                         .WithMany()
-                        .HasForeignKey("UsuariosCod_Usuario")
+                        .HasForeignKey("Cod_Usuario")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Usuarios");
                 });
 
-            modelBuilder.Entity("HotelWebApi.Models.PisoHabitaciones", b =>
+            modelBuilder.Entity("HotelWebApi.Models.Piso", b =>
                 {
                     b.HasOne("HotelWebApi.Models.Sucursales", "Sucursales")
                         .WithMany()
-                        .HasForeignKey("SucursalesCodigo_Sucursal")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HotelWebApi.Models.TipoHabitacion", "TipoHabitacion")
-                        .WithMany()
-                        .HasForeignKey("TipoHabitacionID_TipoHabitacion")
+                        .HasForeignKey("Codigo_Sucursal")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Sucursales");
-
-                    b.Navigation("TipoHabitacion");
                 });
 
             modelBuilder.Entity("HotelWebApi.Models.Sucursales_Usuarios", b =>
                 {
-                    b.HasOne("HotelWebApi.Models.Sucursales", "Sucursales")
-                        .WithMany()
-                        .HasForeignKey("SucursalesCodigo_Sucursal");
-
                     b.HasOne("HotelWebApi.Models.Usuarios", "Usuarios")
                         .WithMany()
-                        .HasForeignKey("UsuariosCod_Usuario")
+                        .HasForeignKey("Cod_Usuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HotelWebApi.Models.Sucursales", "Sucursales")
+                        .WithMany()
+                        .HasForeignKey("Codigo_Sucursal")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Sucursales");
 
                     b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("HotelWebApi.Models.TipoHabitacion", b =>
+                {
+                    b.HasOne("HotelWebApi.Models.Piso", "piso")
+                        .WithMany()
+                        .HasForeignKey("Codigo_Piso")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("piso");
                 });
 #pragma warning restore 612, 618
         }
