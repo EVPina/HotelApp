@@ -27,7 +27,7 @@ namespace HotelWebApi.Services
                 new Claim(ClaimTypes.NameIdentifier, id),
                 new Claim(ClaimTypes.Role, role)
             }),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddHours(1),
                 SigningCredentials = new SigningCredentials(
            new SymmetricSecurityKey(key),
            SecurityAlgorithms.HmacSha256Signature

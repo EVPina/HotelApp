@@ -22,6 +22,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddDbContext<AppDBContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IUsuarios,SUsuarios>();
+builder.Services.AddScoped<ISAdministrador,SAdministrador>();
 builder.Services.AddSingleton<SJWToken>();
 builder.Services.AddSwaggerGen(x =>
 {
