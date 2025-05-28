@@ -21,6 +21,10 @@ namespace HotelWebApi.Models
         [StringLength(9)]
         public string Telefono_Sucursal { get; set; }
 
+        public ICollection<Sucursales_Usuarios> Sucursales_Usuarios { get; set; }
+        public ICollection<Clientes> Clientes { get; set; }
+        public ICollection<Piso> Pisos { get; set; }
+
         public void GenerarId()
         {
             Codigo_Sucursal = Guid.NewGuid().ToString("N")[..5];

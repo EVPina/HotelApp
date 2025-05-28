@@ -28,6 +28,9 @@ namespace HotelWebApi.Models
         [EnumDataType(typeof(Role))]
         public string Role_Usuario { get; set; }
 
+        public ICollection<Sucursales_Usuarios> Sucursales_Usuarios { get; set; }
+        public ICollection<Empleado> Empleados { get; set; }
+
         public void GenerarId()
         {
             Cod_Usuario =  Guid.NewGuid().ToString("N")[..8];

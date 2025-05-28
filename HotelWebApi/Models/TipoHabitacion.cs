@@ -20,5 +20,6 @@ namespace HotelWebApi.Models
 
         [ForeignKey(nameof(Codigo_Piso))]
         public Piso piso { get; set; }
+
     }
 }

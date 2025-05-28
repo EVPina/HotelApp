@@ -21,5 +21,8 @@ namespace HotelWebApi.Models
   
         [ForeignKey(nameof(Codigo_Sucursal))]
         public Sucursales Sucursales { get; set; }
+
+        public ICollection<TipoHabitacion> TipoHabitaciones { get; set; }
+
     }
 }
