@@ -10,6 +10,7 @@ namespace HotelWebApi.ViewModel
         public string? Nombre_Sucursal { get; set; }
 
         public string? Direccion_Sucursal { get; set; }
+        public List<VMSucursalUsuarios> SucursalUsuarios { get; set; }
 
         [Phone]
         [StringLength(9)]

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HotelWebApi.Interfaces;
+using HotelWebApi.Models;
 using HotelWebApi.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +47,7 @@ namespace HotelWebApi.Controllers
                 return (Ok(response));
         }
 
-        [HttpPut("Saludo")]
+        [HttpPut("ActualizarDatos")]
         public async Task<IActionResult> ActualizarDatos([FromBody] VMDatosUsuario vMDatosUsuario)
         {
             if (ModelState.IsValid)
@@ -56,6 +57,18 @@ namespace HotelWebApi.Controllers
                 return Ok(respuesta);
             }
             return BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("ListarSucursales/{id_usuario}")]
+        public async Task<IActionResult> ListarSucursales(string id_usuario)
+        {
+            List<VMSucursal> sucursales = await _Service_user.ListarSucursales(id_usuario);
+
+            if (sucursales.Count == 0 | sucursales == null) 
+                return NotFound("No hay sucursales asociadas al usuario");
+            else
+                return Ok(sucursales);
         }
     }
 }

@@ -148,9 +148,19 @@ namespace HotelWebApi.Services
                 response = ex.Message;
             }
 
-
-
             return response;
+        }
+
+        public async Task<List<VMSucursal>> ListarSucursales(string id_usuario)
+        {
+            List<VMSucursal> map_sucursal = null;
+
+            List <Sucursales> lista_sucursales = await _context.Sucursales.Include(c=>c.Sucursales_Usuarios).Where(c=>c.Sucursales_Usuarios.Any(r=>r.Cod_Usuario==id_usuario & r.Estado_Sucursales_Usuarios == "activo")).ToListAsync();
+
+            if (lista_sucursales != null || lista_sucursales.Count != 0)
+                 map_sucursal= _mapper.Map<List<VMSucursal>>(lista_sucursales);
+            
+            return map_sucursal;
         }
     }
 }
