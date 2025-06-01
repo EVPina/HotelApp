@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HotelWebApi.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace HotelWebApi.ViewModel
 {
@@ -11,6 +12,7 @@ namespace HotelWebApi.ViewModel
 
         public string? Direccion_Sucursal { get; set; }
         public List<VMSucursalUsuarios> SucursalUsuarios { get; set; }
+        public List<VMPiso> Pisos { get; set; }
 
         [Phone]
         [StringLength(9)]

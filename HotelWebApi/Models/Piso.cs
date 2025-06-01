@@ -17,7 +17,7 @@ namespace HotelWebApi.Models
         public string Codigo_Sucursal { get; set; }
         [Required]
         [StringLength(10)]
-        public string Estado_Habitacion { get; set; }
+        public string Estado_Piso{ get; set; }
   
         [ForeignKey(nameof(Codigo_Sucursal))]
         public Sucursales Sucursales { get; set; }

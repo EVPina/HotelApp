@@ -153,7 +153,7 @@ namespace HotelWebApi.Services
 
         public async Task<List<VMSucursal>> ListarSucursales(string id_usuario)
         {
-            List<VMSucursal> map_sucursal = null;
+            List<VMSucursal> map_sucursal = new List<VMSucursal>();
 
             List <Sucursales> lista_sucursales = await _context.Sucursales.Include(c=>c.Sucursales_Usuarios).Where(c=>c.Sucursales_Usuarios.Any(r=>r.Cod_Usuario==id_usuario & r.Estado_Sucursales_Usuarios == "activo")).ToListAsync();
 
@@ -161,6 +161,22 @@ namespace HotelWebApi.Services
                  map_sucursal= _mapper.Map<List<VMSucursal>>(lista_sucursales);
             
             return map_sucursal;
+        }
+      
+        public async Task<List<VMPiso>> ListarPisos(string id_sucursal)
+        {
+            List<VMPiso> lista_vmpisos = new List<VMPiso>();
+            List <Piso> lista_pisos= await _context.PisoHabitaciones.Where(c=>c.Codigo_Sucursal== id_sucursal & c.Estado_Piso == "activo").ToListAsync();
+
+            if(lista_pisos.Count>0)
+                lista_vmpisos = _mapper.Map<List<VMPiso>>(lista_pisos);
+
+            return lista_vmpisos;
+        }
+
+        public Task<List<VMSucursal>> ListarHabitacions(string id_sucursales)
+        {
+            throw new NotImplementedException();
         }
     }
 }

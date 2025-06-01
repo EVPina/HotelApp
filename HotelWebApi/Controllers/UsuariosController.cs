@@ -59,9 +59,31 @@ namespace HotelWebApi.Controllers
             return BadRequest();
         }
 
-        [AllowAnonymous]
         [HttpGet("ListarSucursales/{id_usuario}")]
         public async Task<IActionResult> ListarSucursales(string id_usuario)
+        {
+            List<VMSucursal> sucursales = await _Service_user.ListarSucursales(id_usuario);
+
+            if (sucursales.Count == 0 | sucursales == null) 
+                return NotFound("No hay sucursales asociadas al usuario");
+            else
+                return Ok(sucursales);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("ListarPisos/{id_sucursal}")]
+        public async Task<IActionResult> ListarPisos(string id_sucursal)
+        {
+            List<VMPiso> sucursales = await _Service_user.ListarPisos(id_sucursal);
+
+            if (sucursales.Count == 0 | sucursales == null) 
+                return NotFound("No hay sucursales asociadas al usuario");
+            else
+                return Ok(sucursales);
+        }
+       
+        [HttpGet("ListarHabitaciones/{id_sucursal}")]
+        public async Task<IActionResult> ListarHabitaciones(string id_sucursal)
         {
             List<VMSucursal> sucursales = await _Service_user.ListarSucursales(id_usuario);
 
