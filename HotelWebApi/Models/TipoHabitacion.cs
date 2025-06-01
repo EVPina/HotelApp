@@ -16,7 +16,7 @@ namespace HotelWebApi.Models
         public double Precio_TipoHabitacion { get; set; }
 
         [Required]
-        public double Precio_EstadoHabitacion { get; set; }
+        public string Estado_TipoHabitacion { get; set; }
 
         [Required]
         public int Codigo_Piso { get; set; }
