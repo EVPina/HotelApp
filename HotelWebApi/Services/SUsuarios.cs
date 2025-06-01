@@ -174,9 +174,15 @@ namespace HotelWebApi.Services
             return lista_vmpisos;
         }
 
-        public Task<List<VMSucursal>> ListarHabitacions(string id_sucursales)
+        public async Task<List<VMHabitaciones>> ListarHabitaciones(int id_piso)
         {
-            throw new NotImplementedException();
+            List<VMHabitaciones> lista_vmhabitaciones = new List<VMHabitaciones>(); 
+            List<TipoHabitacion> lista_habitaciones = await _context.TipoHabitacion.Where(c => c.Codigo_Piso == id_piso && c.Estado_TipoHabitacion=="activo").ToListAsync();
+
+            if (lista_habitaciones.Count > 0)
+                lista_vmhabitaciones = _mapper.Map<List<VMHabitaciones>>(lista_habitaciones);
+
+            return lista_vmhabitaciones;
         }
     }
 }
