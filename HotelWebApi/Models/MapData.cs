@@ -15,6 +15,7 @@ namespace HotelWebApi.Models
             CreateMap<Sucursales, VMSucursal>().ForMember(c=>c.SucursalUsuarios,opt=>opt.MapFrom(src=>src.Sucursales_Usuarios));
             CreateMap<Sucursales_Usuarios, VMSucursalUsuarios>();
             CreateMap<Piso, VMPiso>();
+            CreateMap<TipoHabitacion, VMHabitaciones>();
         }
     }
 }
