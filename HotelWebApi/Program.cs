@@ -20,9 +20,11 @@ builder.Services.AddControllers(options =>
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddDbContext<AppDBContext>(option=>option.UseSqlServer(builder.Configuration.GetConnectionString("conexion")));
+builder.Services.AddMemoryCache(); 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddScoped<IUsuarios,SUsuarios>();
 builder.Services.AddScoped<ISAdministrador,SAdministrador>();
+builder.Services.AddScoped<SCaching>();
+builder.Services.AddScoped<IUsuarios,SUsuarios>();
 builder.Services.AddSingleton<SJWToken>();
 builder.Services.AddSwaggerGen(x =>
 {
@@ -76,6 +78,7 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", option =>
         ValidAudience = "HotelWebApi"
     };
 });
+
 
 var app = builder.Build();
 

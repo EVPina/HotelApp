@@ -9,7 +9,7 @@ namespace HotelWebApi.Interfaces
         public Task<string> Registrar(VMRegistrar vMRegistrar);
         public Task<string> ActualizarDatos(VMDatosUsuario vMDatos);
         public Task<List<VMSucursal>> ListarSucursales(string id_usuario);
-        public Task<List<VMPiso>> ListarPisos(string id_sucursal);
-        public Task<List<VMHabitaciones>> ListarHabitaciones(int id_piso);
+        public Task<List<VMPiso>> ListarPisos(string id_sucursal,string key_sucursal);
+        public Task<List<VMHabitaciones>> ListarHabitaciones(int id_piso, string key_piso);
     }
 }

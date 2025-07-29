@@ -13,12 +13,15 @@ namespace HotelWebApi.Services
         private readonly IMapper _mapper;
         private readonly ILogger<SUsuarios> _logger;
         private readonly SJWToken _swtoken;
-        public SUsuarios(AppDBContext dbContext, IMapper mapper, SJWToken swtoken, ILogger<SUsuarios> logger)
+        private readonly SCaching _cache;
+
+        public SUsuarios(AppDBContext dbContext, IMapper mapper, SJWToken swtoken, ILogger<SUsuarios> logger,SCaching sCaching)
         {
             _context = dbContext;
             _mapper = mapper;
             _swtoken = swtoken;
             _logger = logger;
+            _cache = sCaching;
         }
 
         public async Task<string> Login(VMLogin vMUsuario)
@@ -163,26 +166,33 @@ namespace HotelWebApi.Services
             return map_sucursal;
         }
       
-        public async Task<List<VMPiso>> ListarPisos(string id_sucursal)
+        public async Task<List<VMPiso>> ListarPisos(string id_sucursal, string key_sucursal)
         {
-            List<VMPiso> lista_vmpisos = new List<VMPiso>();
-            List <Piso> lista_pisos= await _context.PisoHabitaciones.Where(c=>c.Codigo_Sucursal== id_sucursal & c.Estado_Piso == "activo").ToListAsync();
+            return await _cache.GetOrSetAsync(key_sucursal, async () =>
+            {
+                List<VMPiso> lista_vmpisos = new List<VMPiso>();
+                List<Piso> lista_pisos = await _context.PisoHabitaciones.Where(c => c.Codigo_Sucursal == id_sucursal & c.Estado_Piso == "activo").ToListAsync();
 
-            if(lista_pisos.Count>0)
-                lista_vmpisos = _mapper.Map<List<VMPiso>>(lista_pisos);
+                if (lista_pisos.Count > 0)
+                    lista_vmpisos = _mapper.Map<List<VMPiso>>(lista_pisos);
 
-            return lista_vmpisos;
+                return lista_vmpisos;
+            }, 2);
         }
 
-        public async Task<List<VMHabitaciones>> ListarHabitaciones(int id_piso)
+        public async Task<List<VMHabitaciones>> ListarHabitaciones(int id_piso, string key_piso)
         {
-            List<VMHabitaciones> lista_vmhabitaciones = new List<VMHabitaciones>(); 
+            return await _cache.GetOrSetAsync(key_piso, async () =>
+            {
+                List<VMHabitaciones> lista_vmhabitaciones = new List<VMHabitaciones>(); 
             List<TipoHabitacion> lista_habitaciones = await _context.TipoHabitacion.Where(c => c.Codigo_Piso == id_piso && c.Estado_TipoHabitacion=="activo").ToListAsync();
 
             if (lista_habitaciones.Count > 0)
                 lista_vmhabitaciones = _mapper.Map<List<VMHabitaciones>>(lista_habitaciones);
 
             return lista_vmhabitaciones;
+            }, 2);
+
         }
     }
 }

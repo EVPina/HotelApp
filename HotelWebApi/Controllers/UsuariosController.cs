@@ -70,22 +70,23 @@ namespace HotelWebApi.Controllers
                 return Ok(sucursales);
         }
 
+        [AllowAnonymous]
         [HttpGet("ListarPisos/{id_sucursal}")]
         public async Task<IActionResult> ListarPisos(string id_sucursal)
         {
-            List<VMPiso> sucursales = await _Service_user.ListarPisos(id_sucursal);
+            List<VMPiso> sucursales = await _Service_user.ListarPisos(id_sucursal, "ListaSucursal " + id_sucursal);
 
             if (sucursales.Count == 0 | sucursales == null) 
                 return NotFound("No hay sucursales asociadas al usuario");
             else
                 return Ok(sucursales);
         }
-       
+
         [AllowAnonymous]
         [HttpGet("ListarHabitaciones/{id_piso}")]
         public async Task<IActionResult> ListarHabitaciones(int id_piso)
         {
-            List<VMHabitaciones> habitaciones = await _Service_user.ListarHabitaciones(id_piso);
+            List<VMHabitaciones> habitaciones = await _Service_user.ListarHabitaciones(id_piso, "ListaPisos"+ id_piso);
 
             if (habitaciones.Count == 0 | habitaciones == null) 
                 return NotFound("No hay habitaciones disponibles");
