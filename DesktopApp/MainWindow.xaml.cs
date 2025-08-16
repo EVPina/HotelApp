@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using DesktopApp.Views;
+using DesktopApp.VModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,9 +23,12 @@ namespace DesktopApp
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            
+            if (DataContext is LoginViewModel vm) { 
+            vm.Password_Usuario = ((PasswordBox)sender).Password;
+            }
         }
+
     }
 }

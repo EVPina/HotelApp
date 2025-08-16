@@ -23,11 +23,11 @@
             <StackPanel Grid.Row="1" >
                 <WrapPanel>
                     <TextBlock Text="Usuario" Margin="35,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
-                    <TextBox Margin="35,30,0,30" Name="txtUsuario" Width="216" Height="42"/>
+                    <TextBox Margin="35,30,0,30" Name="txtUsuario" Width="216" Height="42" FontSize="20"/>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Text="Contraseña" Margin="10" FontSize="20"/>
-                    <PasswordBox Margin="15,0,0,0"  x:Name="txtContrasena" Width="226"/>
+                    <PasswordBox Margin="15,0,0,0"  x:Name="txtContrasena" Width="226" FontSize="20"/>
                 </WrapPanel>
             </StackPanel>
             <StackPanel Grid.Row="2">
